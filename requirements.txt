@@ -1,0 +1,9 @@
+discord.py
+asyncpg
+argparse
+shlex
+humanfriendly
+psutil
+jikanpy
+discord
+import asyncpg
