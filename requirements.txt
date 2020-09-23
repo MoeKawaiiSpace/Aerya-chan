@@ -6,4 +6,3 @@ humanfriendly
 psutil
 jikanpy
 discord
-import asyncpg
