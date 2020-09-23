@@ -89,7 +89,7 @@ class Fun(commands.Cog):
         n = 1
         for i in info:
             m = ctx.guild.get_member(info[x]['user_id'])
-            embed.add_field(name="\u200b",value = f"{n}) {m.display_name} - XP:``{info[x]['xp']}`` :crown:",inline = False)
+            embed.add_field(name="\u200b",value = f"{n}) {m.display_name} - XP:``{info[x]['xp']}``",inline = False)
             x+=1
             n+=1
         await ctx.send(embed = embed)    
@@ -120,7 +120,7 @@ class Fun(commands.Cog):
         n2 = 1
         for i in info:
             m = self.bot.get_user(i['user_id'])
-            embed.add_field(name="\u200b", value = f"{n2}) {m.display_name} - XP:``{i['xp']}`` :crown:",inline = False)
+            embed.add_field(name="\u200b", value = f"{n2}) {m.display_name} - XP:``{i['xp']}``",inline = False)
            
             n2 +=1
         await ctx.send(embed = embed)    
@@ -130,7 +130,7 @@ class Fun(commands.Cog):
     async def balance(self,ctx,member:discord.Member=None,amount:int=None):
         if member == None:
             bal = await self.bot.pg_con.fetch("SELECT bal FROM profile_ext WHERE user_id = $1",ctx.author.id)
-            await ctx.send(f"Your balance: ``{bal[0]['bal']}``")
+            await ctx.send(f"Your balance: ``{bal[0]['bal']}`` Vallis")
         elif member != None and amount != None:
             bal = await self.bot.pg_con.fetch("SELECT bal FROM profile_ext WHERE user_id = $1",ctx.author.id)
             if amount <= bal[0]['bal']: 
@@ -255,7 +255,7 @@ class Fun(commands.Cog):
     @commands.cooldown(1,86400,BucketType.user) 
     async def login(self,ctx):
         await self.bot.pg_con.execute("UPDATE profile_ext SET bal = bal + 1000 WHERE user_id = $1",ctx.author.id)
-        await ctx.send("Youve received  ``1000`` credits!!")
+        await ctx.send("Baka! B-b-but here is your ``1000`` Vallis!!")
     @reputation.error
     async def login_error(self,ctx, e):
             if isinstance(e, commands.CommandOnCooldown):
@@ -391,7 +391,7 @@ class Fun(commands.Cog):
         await ctx.send("Hi please join this server and follow this channel to get match betting updates on your server. Thankyou! :grin: \nhttps://discord.gg/Jbezjq ")           
     @commands.command()
     async def set_details(self,ctx,*,args):
-        l = [523685858658746397,729198037116649523]
+        l = [523685858658746397]
         if ctx.author.id in l:
             parser = ArgParse()
             parser.add_argument('--slip', type=str)
@@ -444,13 +444,13 @@ class Fun(commands.Cog):
                             await self.bot.pg_con.execute("INSERT INTO matchbet_data(user_id,slip_no,amount,choice) VALUES($1,$2,$3,$4)",ctx.author.id,slip,amount,choice.lower())
                             await ctx.send("Registered :thumbsup:")
                         else:
-                            await ctx.send("Sorry registrations have closed")
+                            await ctx.send("Sorry, this slip have been closed")
                     else:
                         await ctx.send("Hmm, looks like you have entered an invalid slip number") 
                 else:
-                    await ctx.send("You dont have enough money :(")       
+                    await ctx.send("You don't have enough money :(")       
             else:
-                await ctx.send("You have to put atleast 1000")          
+                await ctx.send("The smallest amount to bet is 1000 Vallis")          
         else:  
             await ctx.send("Hmm, looks like you've already registered")      
 
