@@ -53,20 +53,20 @@ class Moderation(commands.Cog):
 
         
 
-        embed = discord.Embed(title="Serverinfo", color = discord.Color(random.randint( 0, 16777216)))
+        embed = discord.Embed(title="Server Information", color = discord.Color(random.randint( 0, 16777216)))
         embed.set_author(name=ctx.guild.name, icon_url=servericon)
-        embed.add_field(name="Server Owner :crown:", value=ctx.guild.owner)
+        embed.add_field(name="Server Owner", value=ctx.guild.owner)
         embed.add_field(name="Server Region", value=ctx.guild.region)
-        embed.add_field(name="Server Boosters <:boost:736042021063622807>", value=boost_status)
-        embed.add_field(name="Channel Category ``#``", value=Categories)
-        embed.add_field(name="Text Channels ``#``", value=TextChannelNumber)
-        embed.add_field(name="Voice Channels :speaker:", value=VoiceChannelNumber)
+        embed.add_field(name="Server Boosters", value=boost_status)
+        embed.add_field(name="Channel Category", value=Categories)
+        embed.add_field(name="Text Channels", value=TextChannelNumber)
+        embed.add_field(name="Voice Channels", value=VoiceChannelNumber)
         embed.add_field(name="Total Members", value=f"{allMembers}")
         embed.add_field(name="Humans :man:", value=f"{netUsers}")
-        embed.add_field(name="Bots :robot:", value=f"{botUsers}")
-        embed.add_field(name="Emojis :wink:", value=emojis)
+        embed.add_field(name="Bots", value=f"{botUsers}")
+        embed.add_field(name="Emojis", value=emojis)
         embed.add_field(name="Verification Level", value=verification)
-        embed.add_field(name=f'Roles ``@``', value=guildroles, inline=False)
+        embed.add_field(name=f'Roles', value=guildroles, inline=False)
         embed.set_footer(text=f"ID: {ctx.guild.id} | {server_created_at}")
         embed.set_thumbnail(url=ctx.guild.icon_url)
         await ctx.send(embed=embed)
@@ -133,7 +133,7 @@ class Moderation(commands.Cog):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Looks like you forgot to mention the member to be banned. Try again")
         elif isinstance(error, commands.MissingPermissions):
-            await ctx.send("Oops! You don't have the permission to use this command") 
+            await ctx.send("Senpai! Senpai doesn't have the permission to use this command") 
         else:
             raise error
     @unban.error
@@ -142,7 +142,7 @@ class Moderation(commands.Cog):
             await ctx.send("Looks like you forgot to enter the name of the user to be unbanned. Try again")    
 
         elif isinstance(error, commands.MissingPermissions):
-            await ctx.send("Oops! You don't have the permission to use this command") 
+            await ctx.send("Senpai! Senpai doesn't have the permission to use this command") 
         else:
             raise error    
     @kick.error
@@ -151,7 +151,7 @@ class Moderation(commands.Cog):
             await ctx.send("Looks like you forgot to enter the name of the user to be kicked. Try again")    
 
         elif isinstance(error, commands.MissingPermissions):
-            await ctx.send("Oops! You don't have the permission to use this command") 
+            await ctx.send("Senpai! Senpai doesn't have the permission to use this command") 
         elif isinstance(error, commands.BadArgument):
             await ctx.send("Sorry, I couldn't find this user")
             
@@ -159,11 +159,11 @@ class Moderation(commands.Cog):
             raise error 
     @commands.command()
     async def ping(self,ctx):
-        await ctx.send(f'Ping: {round(self.bot.latency*1000)}ms')
+        await ctx.send(f'Pong: {round(self.bot.latency*1000)}ms')
 
     @commands.command(name = "support",aliases = ['discord'])
     async def support_discord(self,ctx):
-        await ctx.send("You are welcome to join our support server!: https://discord.gg/ZtVJJ4N")
+        await ctx.send("You are welcome to join our support server: https://discord.gg/ZtVJJ4N")
 
 def setup(bot):
     bot.add_cog(Moderation(bot))        
