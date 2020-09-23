@@ -1,3 +1,9 @@
+# Project Name: Aerya
+# Last Modified: Sep 23, 2020
+# Author: Aki 
+# ------------------------
+
+# Import necessary library
 import discord
 import random
 import datetime
