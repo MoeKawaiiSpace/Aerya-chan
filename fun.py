@@ -1,3 +1,9 @@
+# Project Name: Aerya
+# Last Modified: Sep 23, 2020
+# Author: Aki 
+# ------------------------
+
+# Import necessary library
 import discord
 import re
 import argparse
@@ -137,7 +143,7 @@ class Fun(commands.Cog):
     
     @commands.command()
     async def shop_set(self,ctx,*,args):
-        if ctx.author.id == 740929066009493505:
+        if ctx.author.id == 523685858658746397:
                 parser = ArgParse()
                 parser.add_argument('--name', type=str, nargs='+')
                 parser.add_argument('--emoji', type=str)
