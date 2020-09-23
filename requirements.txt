@@ -1,7 +1,6 @@
 discord.py
 asyncpg
 argparse
-shlex
 humanfriendly
 psutil
 jikanpy
