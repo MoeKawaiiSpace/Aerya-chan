@@ -163,7 +163,7 @@ class Moderation(commands.Cog):
 
     @commands.command(name = "support",aliases = ['discord'])
     async def support_discord(self,ctx):
-        await ctx.send("Here's the link to the support server: http://links.moekawaii.space/MKBettorsDiscord")
+        await ctx.send("You are welcome to join our support server!: https://discord.gg/ZtVJJ4N")
 
 def setup(bot):
     bot.add_cog(Moderation(bot))        

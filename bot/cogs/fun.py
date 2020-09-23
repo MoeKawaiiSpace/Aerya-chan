@@ -206,21 +206,21 @@ class Fun(commands.Cog):
         )
         embed.add_field(name="Bot ID" , value=f"641780922445856768")
         embed.add_field(name="\u200b" , value=f"\u200b")
-        embed.add_field(name=":writing_hand: Bot Owner :writing_hand:" , value="**Aki#1706**(ID: 523685858658746397)")
+        embed.add_field(name="Bot Owner" , value="**Aki#1706** (ID: 523685858658746397)")
 
        
 
         embed.add_field(name = "CPU Usage", value = f"{cpu_usage}%")
-        embed.add_field(name="\u200b" , value=f"\u200b")
+        embed.add_field(name ="\u200b" , value=f"\u200b")
         embed.add_field(name = "Ram Usage", value = f"{ram_usage}%")
         
 
         
-        embed.add_field(name =":homes: Serving in", value = f"**{totalservers}** Servers")
-        embed.add_field(name="\u200b" , value=f"\u200b")
-        embed.add_field(name=":family_mwgb: Serving for" , value=f"**{totalusers}** Users")
+        embed.add_field(name ="Serving in", value = f"**{totalservers}** Servers")
+        embed.add_field(name ="\u200b" , value=f"\u200b")
+        embed.add_field(name ="Serving for" , value=f"**{totalusers}** Users")
 
-        embed.add_field(name="Uptime" , value=f"{days} days, {hours} hours, {minutes} minutes, {seconds} seconds ",inline=False)
+        embed.add_field(name ="Uptime" , value=f"{days} days, {hours} hours, {minutes} minutes, {seconds} seconds ",inline=False)
 
 
 
@@ -231,7 +231,7 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def help(self,ctx):
-        await ctx.send("**Click here:** https://aerya.moekawaii.space/AeryaCMD.html")    
+        await ctx.send("**Looking for my command list senpai? Click here:** https://aerya.moe")    
     
     @commands.command(aliases = ['rep'])
     @commands.cooldown(1,86400,BucketType.user)
