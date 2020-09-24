@@ -17,7 +17,9 @@ This is the question that mostly people are interesting right? I have the answer
 
 Bet slip example: 
 
-![Example](https://i.imgur.com/VWjbONN.png "Bet slip example")
+<p align="center">
+  <img src="https://i.imgur.com/VWjbONN.png" alt="Follow"/>
+</p>
 
 - **Date**: Kinda obvious, you know what it mean right?
 - **Game**: Basketball, Football, CSGO, League of Legends, Anime, Movies, etc...
@@ -32,7 +34,9 @@ Bet slip example:
 - First, invite our bot [Click here](https://discord.com/api/oauth2/authorize?client_id=641780922445856768&permissions=8&scope=bot) to your server.
 - Second, follow the #sportsbook Announcement channel [Server invite link click here](https://discord.gg/CVhk828) to a channel that you want us to send the slip on your server (I recommended a channel that no one can chat, or the slip will get lost.)
 
-![It will look like this](https://i.imgur.com/c2OjFjw.png "Follow")
+<p align="center">
+  <img src="https://i.imgur.com/c2OjFjw.png" alt="Follow"/>
+</p>
 
 And that's all for you! Enjoy <3.
 
