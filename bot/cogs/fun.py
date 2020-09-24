@@ -33,7 +33,7 @@ class ArgParse(argparse.ArgumentParser):
 class Fun(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
-        self.cd_mapping = commands.CooldownMapping.from_cooldown(1, 10, commands.BucketType.member)
+        self.cd_mapping = commands.CooldownMapping.from_cooldown(1, 20, commands.BucketType.member)
 
     @Cog.listener()
     async def on_message(self,message):
@@ -46,12 +46,12 @@ class Fun(commands.Cog):
             xp = await self.bot.pg_con.fetchrow("SELECT xp FROM profiles WHERE user_id = $1 AND guild_id = $2",message.author.id,message.guild.id)
             if xp['xp'] % 150 == 0:
                 await self.bot.pg_con.execute("UPDATE profile_ext SET bal = bal + 1500 WHERE user_id = $1",message.author.id)
-                await message.channel.send(f"{message.author.mention} has been awarded 1500 credits! Keep gaining xp :partying_face:" )
+                await message.channel.send(f"{message.author.mention} has been awarded 1500 Vallis! Keep gaining xp :partying_face:" )
     @commands.command()
     async def shop(self,ctx):
         items = await self.bot.pg_con.fetch("SELECT * FROM shop")
         
-        embed = discord.Embed(title = 'Shop items',description='Use a!buy command to buy and item from the shop',color = discord.Color(random.randint( 0, 16777216)))
+        embed = discord.Embed(title = 'Badges Shop',description='Use a!buy command to buy badges from the shop.',color = discord.Color(random.randint( 0, 16777216)))
        
         n = 1
         for i in items:
@@ -433,9 +433,9 @@ class Fun(commands.Cog):
         chek = await self.bot.pg_con.fetchrow("SELECT * FROM matchbet_data WHERE user_id = $1 AND slip_no = $2",ctx.author.id,slip)
      
         if not chek:
-            if amount >= 1000:
+            if amount >= 100:
                 user = await self.bot.pg_con.fetchrow("SELECT * FROM profile_ext WHERE user_id = $1",ctx.author.id)
-                if user['bal']>= 1000:
+                if user['bal']>= 100:
                     check = await self.bot.pg_con.fetchrow("SELECT status FROM matchbet WHERE slip_no = $1",slip)
                     if check:
                         if check['status'] == 'on':
