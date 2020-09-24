@@ -134,10 +134,10 @@ class Fun(commands.Cog):
         elif member != None and amount != None:
             bal = await self.bot.pg_con.fetch("SELECT bal FROM profile_ext WHERE user_id = $1",ctx.author.id)
             if amount <= bal[0]['bal']: 
-                await self.bot.pg_con.execute("UPDATE profile_ext SET bal = $1 WHERE user_id = $2",amount,member.id)  
+                await self.bot.pg_con.execute("UPDATE profile_ext SET bal = bal + $1 WHERE user_id = $2",amount,member.id)  
                 rest = bal[0]['bal'] - amount
-                await self.bot.pg_con.execute("UPDATE profile_ext SET bal = $1 WHERE user_id = $2",rest,ctx.author.id)
-                await ctx.send(f"Transferred ``{amount}`` to {member.display_name}")
+                await self.bot.pg_con.execute("UPDATE profile_ext SET bal = bal - $1 WHERE user_id = $2",rest,ctx.author.id)
+                await ctx.send(f"Transferred ``{amount}`` Vallis to {member.display_name}")
             else:
                 await ctx.send("You dont have that much amount to transfer")    
     
