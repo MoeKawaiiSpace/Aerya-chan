@@ -18,7 +18,7 @@ init_extensions = ['cogs.moderation','cogs.fun']
 
 # Connect to PostgreSQL
 async def create_db_pool():
-    bot.pg_con = await asyncpg.create_pool(host = 'xxx.xxx.xxx.xxx',user = 'xxx', password = 'xxx',database = 'xxx')
+    bot.pg_con = await asyncpg.create_pool(host = '139.59.251.230',user = 'aki', password = 'vuducanh2003',database = 'aerya')
 
 if __name__ == '__main__':
     for extension in init_extensions:
