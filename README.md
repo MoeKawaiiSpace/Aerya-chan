@@ -27,8 +27,8 @@ Bet slip example:
 - Status: ON (mean it's open for place bet) | OFF (mean the game is LIVE, or the Anime/Movies is LIVE. Or we just close it but rare case) | ENDED (The winner is credited and the result is posted on our spreadsheet)
 
 ### What I have to do to get the bet slip? 
-- First, invite our bot [here](https://discord.com/api/oauth2/authorize?client_id=641780922445856768&permissions=8&scope=bot) to your server.
-- Second, follow the #sportsbook Announcement channel [Server invite link](https://discord.gg/CVhk828) to a channel that you want us to send the slip on your server (I recommended a channel that no one can chat, or the slip will get lost.)
+- First, invite our bot [Click here](https://discord.com/api/oauth2/authorize?client_id=641780922445856768&permissions=8&scope=bot) to your server.
+- Second, follow the #sportsbook Announcement channel [Server invite link click here](https://discord.gg/CVhk828) to a channel that you want us to send the slip on your server (I recommended a channel that no one can chat, or the slip will get lost.)
 
 ![It will look like this](https://i.imgur.com/c2OjFjw.png "Follow")
 
