@@ -360,35 +360,10 @@ class Fun(commands.Cog):
         embed.add_field(name = 'URL', value = url,inline=False)
         embed.set_footer(text= "Not the result you were lookin for?....Enter the correct name next time and check if its anime")
         await ctx.send(embed = embed)     
-    @commands.command()
-    @commands.has_permissions(kick_members = True)
-    async def toggle_on(self,ctx):
-        check = await self.bot.pg_con.fetch("SELECT * from matchbet WHERE guild_id = $1",ctx.guild.id)
-        if not check:
-            channel = await ctx.guild.create_text_channel('Match-betting')
-            channel_id = channel.id
-            await self.bot.pg_con.execute("INSERT INTO matchbet(guild_id,channel_id) VALUES($1,$2)",ctx.guild.id,channel_id)
-            await ctx.send("Match betting enabled :thumbsup:")
-        if check:
-            await ctx.send("Match betting is already enabled for this server")
-  
 
-    @commands.command()
-    @commands.has_permissions(kick_members = True)
-    async def toggle_off(self,ctx):
-        check = await self.bot.pg_con.fetch("SELECT * from matchbet WHERE guild_id = $1",ctx.guild.id)
-        print(check)
-        if not check:
-            await ctx.send("Match betting is already disabled for this server")
-        else:
-            channel_id = check[0]['channel_id']  
-            channel = self.bot.get_channel(channel_id)
-            await channel.delete()
-            await self.bot.pg_con.execute("DELETE from matchbet WHERE guild_id = $1",ctx.guild.id)
-            await ctx.send("Match betting disabled")  
     @commands.command()   
     async def match_bet(self,ctx):
-        await ctx.send("Hi please join this server and follow this channel to get match betting updates on your server. Thankyou! :grin: \nhttps://discord.gg/Jbezjq ")           
+        await ctx.send("Hi please join our and follow THIS channel to get sportsbook updates on your server. Thankyou! :grin: \nhttps://discord.gg/CVhk828 ")           
     @commands.command()
     async def set_details(self,ctx,*,args):
         l = [523685858658746397]
