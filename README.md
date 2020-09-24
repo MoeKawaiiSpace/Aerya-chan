@@ -1,5 +1,5 @@
 # Aerya-chan
-This is Aerya-chan bot repository. Any questions?
+T-T-This is Aerya-chan bot repository... But i-i-it's not like I w-w-want you to look at it or something ok?
 
 ### About
 Aerya-chan is the first Sportsbook Discord Bot we ever have (I guess so, don't take it too seriously). 
