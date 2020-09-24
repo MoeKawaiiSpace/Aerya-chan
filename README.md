@@ -49,7 +49,7 @@ I assume you know the slip number, by checking the bet slip that our bot send di
 a!bet [bet slip number] [left OR right side] [amount]
 ```
 
-REMEMBER NOT TO TYPE THE HASHTAG
+REMEMBER NOT TO TYPE THE HASHTAG IN BET SLIP NUMBER
 
 ```bash
 -> a!bet 000001 left 1000 (000001 is the slip number, left mean you bet on left side and 1000 is the amount of Vallis you placed.)
