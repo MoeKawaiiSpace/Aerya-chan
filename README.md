@@ -63,6 +63,12 @@ Per day, there will be many MATCH that you can bet on. We will try to cover as m
 ### How can I keep track of what I bet on?
 I-I-I don't have a solution for now :(. You can try to do it by yourself. I'm really sorry about that. We will make a function that you can check your bet history from Aerya, maybe? 
 
+### For the Vallis a.k.a our currency system, how can I get it?
+You can get it by stay active on Discord and by donate us! You will get 1500 Vallis per 150xp. And how does the xp gain? 6 XP per message, cool down 20 seconds. So by stay active for 10 minutes, you got 180 XP!
+
+If you want to donate, please contact Aki#1706 (ID:523685858658746397). For 1 USD you will get 23000 Vallis <3
+
+
 ## Some IMPORTANT LINKS for you!
 These links are really important, to keep you up to date on our slip. 
 - Aerya-chan main website: https://aerya.moe
