@@ -24,7 +24,7 @@ Bet slip example:
 - Bet on: You choose either left side or right side.
 - Percentage: The percentage of people bet on each side. (this will be revealed once the slip is OFF)
 - Odds: The ratio between the amounts staked by the parties to a bet, based on the expected probability either way. They are also determined by how others are wagering. (this will be revealed once the slip is OFF)
-- Status: ON (mean it's open for place bet) | OFF (mean the game is LIVE, or the Anime/Movies is LIVE. Or we just close it but rare case) | ENDED (The winner is credited and the result is posted on our spreadsheet)
+- Status: ON (mean it's open for place bet) | OFF (mean the game is LIVE, or the Anime/Movies is LIVE. Or we just close it but rare case) | ENDED (The winner is credited and the result is posted on our [SPREADSHEET](https://docs.google.com/spreadsheets/d/1x4TZLGltQiNdhaZMxtuoHE4x8X1UG0ZZFTurRchLD9Y/edit?usp=sharing))
 
 ### What I have to do to get the bet slip? 
 - First, invite our bot [Click here](https://discord.com/api/oauth2/authorize?client_id=641780922445856768&permissions=8&scope=bot) to your server.
@@ -32,10 +32,22 @@ Bet slip example:
 
 ![It will look like this](https://i.imgur.com/c2OjFjw.png "Follow")
 
-- Third, that's all you need!
+And that's all for you! Enjoy <3.
 
-### Some IMPORTANT LINKS for you!
+### How can I place a bet?
+I assume you know the slip number, by checking the bet slip that our bot send directly to your discord server or from our [spreadsheet](https://docs.google.com/spreadsheets/d/1x4TZLGltQiNdhaZMxtuoHE4x8X1UG0ZZFTurRchLD9Y/edit?usp=sharing), the command form is really simple!
+
+```bash
+a!bet [bet slip number] [left OR right side] [amount]
+```
+
+```bash
+-> a!bet 000001 left 1000 (000001 is the slip number, left mean you bet on left side and 1000 is the amount of Vallis you placed.)
+```
+
+## Some IMPORTANT LINKS for you!
 These links are really important, to keep you up to date on our slip. 
+- Aerya-chan main website: https://aerya.moe
 - Spreadsheet link: https://docs.google.com/spreadsheets/d/1x4TZLGltQiNdhaZMxtuoHE4x8X1UG0ZZFTurRchLD9Y/edit?usp=sharing
 - Server invite link: https://discord.gg/CVhk828
 - Bot invite link: https://discord.com/api/oauth2/authorize?client_id=641780922445856768&permissions=8&scope=bot
