@@ -17,14 +17,14 @@ Bet slip example:
 
 ![Example](https://i.imgur.com/VWjbONN.png "Bet slip example")
 
-- Date: Kinda obvious, you know what it mean right?
-- Game: Basketball, Football, CSGO, League of Legends, Anime, Movies, etc...
-- Event: For normal sports, it will be the event name. Ex. World Cup | For Anime, it will be the name of the Anime.
-- Match: Things that we can bet on.
-- Bet on: You choose either left side or right side.
-- Percentage: The percentage of people bet on each side. (this will be revealed once the slip is OFF)
-- Odds: The ratio between the amounts staked by the parties to a bet, based on the expected probability either way. They are also determined by how others are wagering. (this will be revealed once the slip is OFF)
-- Status: ON (mean it's open for place bet) | OFF (mean the game is LIVE, or the Anime/Movies is LIVE. Or we just close it but rare case) | ENDED (The winner is credited and the result is posted on our [SPREADSHEET](https://docs.google.com/spreadsheets/d/1x4TZLGltQiNdhaZMxtuoHE4x8X1UG0ZZFTurRchLD9Y/edit?usp=sharing))
+- **Date**: Kinda obvious, you know what it mean right?
+- **Game**: Basketball, Football, CSGO, League of Legends, Anime, Movies, etc...
+- **Event**: For normal sports, it will be the event name. Ex. World Cup | For Anime, it will be the name of the Anime.
+- **Match**: Things that we can bet on.
+- **Bet on**: You choose either left side or right side.
+- **Percentage**: The percentage of people bet on each side. (this will be revealed once the slip is OFF)
+- **Odds**: The ratio between the amounts staked by the parties to a bet, based on the expected probability either way. They are also determined by how others are wagering. (this will be revealed once the slip is OFF)
+- **Status**: ON (mean it's open for place bet) | OFF (mean the game is LIVE, or the Anime/Movies is LIVE. Or we just close it but rare case) | ENDED (The winner is credited and the result is posted on our [SPREADSHEET](https://docs.google.com/spreadsheets/d/1x4TZLGltQiNdhaZMxtuoHE4x8X1UG0ZZFTurRchLD9Y/edit?usp=sharing))
 
 ### What I have to do to get the bet slip? 
 - First, invite our bot [Click here](https://discord.com/api/oauth2/authorize?client_id=641780922445856768&permissions=8&scope=bot) to your server.
