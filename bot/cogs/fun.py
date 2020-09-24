@@ -421,7 +421,7 @@ class Fun(commands.Cog):
             await ctx.send("Here is the how the embed looks. Proceed?(answer with yes or no)")
             resp = await self.bot.wait_for('message',timeout = 60, check = check)
             if resp.content.lower() == 'yes':
-                channel = self.bot.get_channel(755102196030505061)
+                channel = self.bot.get_channel(758508639966724126)
                 await ctx.send("Sending the embed...")
                 msg = await channel.send(embed = embed)
                 await msg.publish()
@@ -463,7 +463,7 @@ class Fun(commands.Cog):
         left_per = (len(left)/(len(left)+len(right)))*100
         right_per = (len(right)/(len(right)+len(left)))*100
         id = await self.bot.pg_con.fetchrow("SELECT msg_id FROM matchbet WHERE slip_no = $1",slip_no)
-        channel = self.bot.get_channel(755102196030505061)
+        channel = self.bot.get_channel(758508639966724126)
         msg = await channel.fetch_message(id['msg_id'])
         desc = msg.embeds[0].description.replace('On','Off',1).replace('Will be displayed soon!',f'{left_per}%/{right_per}%',1).replace('?/?',str(odds),1)
         embed = discord.Embed(title = msg.embeds[0].title,color = msg.embeds[0].color,description = desc )       
@@ -477,7 +477,7 @@ class Fun(commands.Cog):
             credit = float(multiplier) * i['amount']
             await self.bot.pg_con.execute("UPDATE profile_ext SET bal = (bal + $1) WHERE user_id = $2",credit,i['user_id'])
         id = await self.bot.pg_con.fetchrow("SELECT msg_id FROM matchbet WHERE slip_no = $1",slip_no)
-        channel = self.bot.get_channel(755102196030505061)
+        channel = self.bot.get_channel(758508639966724126)
         msg = await channel.fetch_message(id['msg_id'])
         desc = msg.embeds[0].description.replace('Off','Ended',1)
         embed = discord.Embed(title = msg.embeds[0].title,color = msg.embeds[0].color,description = desc )       
