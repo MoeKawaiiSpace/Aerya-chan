@@ -163,7 +163,7 @@ class Moderation(commands.Cog):
 
     @commands.command(name = "support",aliases = ['discord'])
     async def support_discord(self,ctx):
-        await ctx.send("You are welcome to join our support server: https://discord.gg/ZtVJJ4N")
+        await ctx.send("You are welcome to join our support server: https://discord.gg/CVhk828 \nAnd here is my Sportsbook FULL GUIDE if you are looking for it: https://gist.github.com/Aki176/d1709558004f3c779af4f5f93b7eaf58")
 
 def setup(bot):
     bot.add_cog(Moderation(bot))        

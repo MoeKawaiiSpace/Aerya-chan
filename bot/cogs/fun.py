@@ -231,7 +231,7 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def help(self,ctx):
-        await ctx.send("**Looking for my command list senpai? Click here:** https://aerya.moe")    
+        await ctx.send("**Looking for my command list senpai? Click here:** https://aerya.moe \nAnd here is my Sportsbook FULL GUIDE if you are looking for it: https://gist.github.com/Aki176/d1709558004f3c779af4f5f93b7eaf58")    
     
     @commands.command(aliases = ['rep'])
     @commands.cooldown(1,86400,BucketType.user)
