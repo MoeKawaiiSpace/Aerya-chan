@@ -33,7 +33,7 @@ class ArgParse(argparse.ArgumentParser):
 class Fun(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
-        self.cd_mapping = commands.CooldownMapping.from_cooldown(1, 20, commands.BucketType.member)
+        self.cd_mapping = commands.CooldownMapping.from_cooldown(1, 30, commands.BucketType.member)
 
     @Cog.listener()
     async def on_message(self,message):
