@@ -83,7 +83,7 @@ class Fun(commands.Cog):
          
     @commands.command()
     async def xplb(self,ctx):
-        info = await self.bot.pg_con.fetch("SELECT * FROM profiles WHERE guild_id = $1 ORDER BY xp DESC LIMIT 5",ctx.guild.id)
+        info = await self.bot.pg_con.fetch("SELECT * FROM profiles WHERE guild_id = $1 ORDER BY xp DESC LIMIT 10",ctx.guild.id)
         embed = discord.Embed(title = 'Server Rank',color = discord.Color(random.randint( 0, 16777216)))
         x = 0
         n = 1
@@ -114,7 +114,7 @@ class Fun(commands.Cog):
     
     @commands.command()
     async def xpglb(self,ctx):
-        info = await self.bot.pg_con.fetch("SELECT * FROM (SELECT DISTINCT ON (user_id)  * FROM profiles) AS info ORDER BY xp DESC LIMIT 5")
+        info = await self.bot.pg_con.fetch("SELECT * FROM (SELECT DISTINCT ON (user_id)  * FROM profiles) AS info ORDER BY xp DESC LIMIT 10")
         embed = discord.Embed(color = discord.Color(random.randint( 0, 16777216)),title = "Global Rank")
  
         n2 = 1
