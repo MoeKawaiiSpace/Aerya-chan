@@ -408,9 +408,9 @@ class Fun(commands.Cog):
         chek = await self.bot.pg_con.fetchrow("SELECT * FROM matchbet_data WHERE user_id = $1 AND slip_no = $2",ctx.author.id,slip)
      
         if not chek:
-            if amount >= 100:
+            if amount >= 300:
                 user = await self.bot.pg_con.fetchrow("SELECT * FROM profile_ext WHERE user_id = $1",ctx.author.id)
-                if user['bal']>= 100:
+                if user['bal']>= 300:
                     check = await self.bot.pg_con.fetchrow("SELECT status FROM matchbet WHERE slip_no = $1",slip)
                     if check:
                         if check['status'] == 'on':
@@ -425,7 +425,7 @@ class Fun(commands.Cog):
                 else:
                     await ctx.send("You don't have enough money :(")       
             else:
-                await ctx.send("The smallest amount to bet is 1000 Vallis")          
+                await ctx.send("The smallest amount to bet is 300 Vallis")          
         else:  
             await ctx.send("Hmm, looks like you've already registered")      
 
