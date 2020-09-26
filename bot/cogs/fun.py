@@ -42,8 +42,7 @@ class Fun(commands.Cog):
         bucket = self.cd_mapping.get_bucket(message)
         retry_after = bucket.update_rate_limit()
         if not retry_after:
-            await self.bot.pg_con.execute("UPDATE profiles SET xp = xp+6 WHERE user_id = $1 AND guild_id = $2",message.author.id,message.guild.id)
-            await self.bot.pg_con.execute("UPDATE profile_ext SET xp = xp+6 WHERE user_id = $1",message.author.id)   
+            await self.bot.pg_con.execute("UPDATE profiles SET xp = xp+6 WHERE user_id = $1 AND guild_id = $2",message.author.id,message.guild.id)   
             xp = await self.bot.pg_con.fetchrow("SELECT xp FROM profiles WHERE user_id = $1 AND guild_id = $2",message.author.id,message.guild.id)
             if xp['xp'] % 150 == 0:
                 await self.bot.pg_con.execute("UPDATE profile_ext SET bal = bal + 1500 WHERE user_id = $1",message.author.id)
