@@ -1,5 +1,5 @@
 # Project Name: Aerya
-# Last Modified: Sep 23, 2020
+# Last Modified: Sep 27, 2020
 # Author: Aki 
 # ------------------------
 
@@ -22,19 +22,19 @@ from discord.ext.commands import MemberConverter
 from discord.ext.commands.cooldowns import BucketType
 from discord.ext.commands import Cog
 from discord.ext.commands.cooldowns import BucketType
-
 from jikanpy import  Jikan
 
 class ArgParse(argparse.ArgumentParser):
     def error(self, message):
         raise commands.BadArgument(message)
 
-
+# Cooldown 30 secs per 6xp
 class Fun(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
-        self.cd_mapping = commands.CooldownMapping.from_cooldown(1, 30, commands.BucketType.member)
+        self.cd_mapping = commands.CooldownMapping.from_cooldown(1, 60, commands.BucketType.member)
 
+    # XP and Vallis increase function
     @Cog.listener()
     async def on_message(self,message):
         if message.author.bot:
@@ -42,15 +42,17 @@ class Fun(commands.Cog):
         bucket = self.cd_mapping.get_bucket(message)
         retry_after = bucket.update_rate_limit()
         if not retry_after:
-            await self.bot.pg_con.execute("UPDATE profiles SET xp = xp+6 WHERE user_id = $1 AND guild_id = $2",message.author.id,message.guild.id)   
-            xp = await self.bot.pg_con.fetchrow("SELECT xp FROM profiles WHERE user_id = $1 AND guild_id = $2",message.author.id,message.guild.id)
-            if xp['xp'] % 150 == 0:
+            await self.bot.pg_con.execute("UPDATE profiles SET xp = xp+6 WHERE user_id = $1 AND guild_id = $2",message.author.id,message.guild.id)
+            await self.bot.pg_con.execute("UPDATE profile_ext SET xpg = xpg+6 WHERE user_id = $1",message.author.id)    
+            xpg = await self.bot.pg_con.fetchrow("SELECT xpg FROM profile_ext WHERE user_id = $1",message.author.id)
+            if xpg['xpg'] % 150 == 0:
                 await self.bot.pg_con.execute("UPDATE profile_ext SET bal = bal + 1500 WHERE user_id = $1",message.author.id)
-                await message.channel.send(f"{message.author.mention} has been awarded 1500 Vallis! Keep gaining xp :partying_face:" )
+                await message.channel.send(f"{message.author.mention} has been awarded 1500 Vallis! Keep being active on Discord :partying_face:" )
+   
+    # Shop command
     @commands.command()
     async def shop(self,ctx):
         items = await self.bot.pg_con.fetch("SELECT * FROM shop")
-        
         embed = discord.Embed(title = 'Badges Shop',description='Use a!buy command to buy badges from the shop.',color = discord.Color(random.randint( 0, 16777216)))
        
         n = 1
@@ -63,6 +65,8 @@ class Fun(commands.Cog):
            
             n+=1
         await ctx.send(embed = embed)   
+    
+    # Buy command
     @commands.command()
     async def buy(self,ctx,*,name):
         names = await self.bot.pg_con.fetch("SELECT * FROM shop")
@@ -80,7 +84,8 @@ class Fun(commands.Cog):
                     await ctx.send("Bought item :thumbsup:")
                 else:
                     await ctx.send("Looks like you dont have enough money to buy this item :(")  
-         
+
+    # XPLB command     
     @commands.command()
     async def xplb(self,ctx):
         info = await self.bot.pg_con.fetch("SELECT * FROM profiles WHERE guild_id = $1 ORDER BY xp DESC LIMIT 10",ctx.guild.id)
@@ -93,7 +98,8 @@ class Fun(commands.Cog):
             x+=1
             n+=1
         await ctx.send(embed = embed)    
-            
+
+    # Avatar command
     @commands.command()
     async def avatar(self,ctx,server=None):
         if not server:
@@ -112,20 +118,21 @@ class Fun(commands.Cog):
                     embed = discord.Embed(color = discord.Color(random.randint( 0, 16777216))).set_image(url = url)
                     await ctx.send(embed = embed)                       
     
+    # XPGLB command
     @commands.command()
     async def xpglb(self,ctx):
-        info = await self.bot.pg_con.fetch("SELECT * FROM (SELECT DISTINCT ON (user_id)  * FROM profiles) AS info ORDER BY xp DESC LIMIT 10")
+        info = await self.bot.pg_con.fetch("SELECT user_id, xpg FROM profile_ext ORDER BY xpg DESC LIMIT 10")
         embed = discord.Embed(color = discord.Color(random.randint( 0, 16777216)),title = "Global Rank")
  
         n2 = 1
         for i in info:
             m = self.bot.get_user(i['user_id'])
-            embed.add_field(name="\u200b", value = f"{n2}) {m.display_name} - XP:``{i['xp']}``",inline = False)
+            embed.add_field(name="\u200b", value = f"{n2}) {m.display_name} - XP:``{i['xpg']}``",inline = False)
            
             n2 +=1
         await ctx.send(embed = embed)    
        
-    
+    # Check balance command
     @commands.command(aliases = ['bal'])
     async def balance(self,ctx,member:discord.Member=None,amount:int=None):
         if member == None:
@@ -141,6 +148,7 @@ class Fun(commands.Cog):
             else:
                 await ctx.send("You dont have that much amount to transfer")    
     
+    # Shop set command
     @commands.command()
     async def shop_set(self,ctx,*,args):
         if ctx.author.id == 523685858658746397:
@@ -162,7 +170,7 @@ class Fun(commands.Cog):
         else:
             await ctx.send("Sorry, you are not eligible to use this command")                     
 
-
+    #Stats command
     @commands.command()
     async def stats(self,ctx):
         voicechannels=[]
@@ -228,7 +236,7 @@ class Fun(commands.Cog):
         embed.set_thumbnail(url = self.bot.user.avatar_url)
         await ctx.send(embed = embed)
 
-
+    # Help + Rep command
     @commands.command()
     async def help(self,ctx):
         await ctx.send("**Looking for my command list senpai? Click here:** https://aerya.moe \nAnd here is my Sportsbook FULL GUIDE if you are looking for it: https://gist.github.com/Aki176/d1709558004f3c779af4f5f93b7eaf58")    
@@ -262,7 +270,9 @@ class Fun(commands.Cog):
                 wait = discord.Embed(description = f"Hey there! Wait for {int(e.retry_after/3600)} hrs until you can use this command again :clock:  ")
                 await ctx.send(embed = wait)
             else:
-                raise         
+                raise  
+
+    # Profile command  
     @commands.command()
     async def profile(self,ctx,member:Optional[discord.Member]):
         if member:
@@ -279,9 +289,12 @@ class Fun(commands.Cog):
                 embed.add_field(name="\u200b" , value=f"\u200b")
                 embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'] )
 
-                embed.add_field(name = "XP", value = info[0]['xp'])
+                embed.add_field(name = "XP Server", value = info[0]['xp'])
                 embed.add_field(name="\u200b" , value=f"\u200b")
+                embed.add_field(name = "XP Global", value = info2[0]['xpg'])
+
                 embed.add_field(name = "Reputation",value  = info2[0]['reputation'])
+                embed.add_field(name="\u200b" , value=f"\u200b")
                 embed.add_field(name = "Badges", value = info2[0]['badges'])
 
             else:               
@@ -300,24 +313,30 @@ class Fun(commands.Cog):
                 embed.add_field(name="\u200b" , value=f"\u200b")
                 embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'] )
 
-                embed.add_field(name = "XP", value = info[0]['xp'])
+                embed.add_field(name = "XP Server", value = info[0]['xp'])
                 embed.add_field(name="\u200b" , value=f"\u200b")
+                embed.add_field(name = "XP Global", value = info2[0]['xpg'])
+
                 embed.add_field(name = "Reputation",value  = info2[0]['reputation'])
+                embed.add_field(name="\u200b" , value=f"\u200b")
                 embed.add_field(name = "Badges", value = info2[0]['badges'])
         await ctx.send(embed = embed)
     
 
 
-
+    # Set description command
     @commands.command()
     async def setdesc(self,ctx,*,desc:str):
         await self.bot.pg_con.execute("UPDATE profile_ext SET description = $1 WHERE user_id = $2",desc,ctx.author.id)
         await ctx.send("Description updated :thumbsup:")
 
+    # Set birthday command
     @commands.command()
     async def setbday(self,ctx,*,bday:str):
         await self.bot.pg_con.execute("UPDATE profile_ext SET birthday = $1 WHERE user_id = $2",bday,ctx.author.id)  
         await ctx.send("Birthday updated :thumbsup:")
+
+    # Marriage command
     @commands.command()
     async def marriage(self,ctx,member:discord.Member):
         chk=await self.bot.pg_con.fetchrow("SELECT waifus FROM profile_ext WHERE user_id = $1 ",ctx.author.id)
@@ -342,7 +361,7 @@ class Fun(commands.Cog):
                         await self.bot.pg_con.execute("UPDATE profile_ext SET waifus = $1 WHERE user_id = $2 ",ctx.author.display_name,member.id)      
                         await ctx.send(f":heart: Yaay! {ctx.author.mention} married {member.mention}!! :partying_face: :partying_face:  ")
     
-    
+    # Search Anime command
     @commands.command()    
     async def anime(self,ctx,*,name):
         jikan = Jikan()
@@ -361,9 +380,12 @@ class Fun(commands.Cog):
         embed.set_footer(text= "Not the result you were lookin for?....Enter the correct name next time and check if its anime")
         await ctx.send(embed = embed)     
 
+    # Match bet module
     @commands.command()   
     async def match_bet(self,ctx):
         await ctx.send("Hi please join our and follow THIS channel to get sportsbook updates on your server. Thankyou! :grin: \nhttps://discord.gg/CVhk828 ")           
+    
+    # Set details bet slip command
     @commands.command()
     async def set_details(self,ctx,*,args):
         l = [523685858658746397]
@@ -401,7 +423,8 @@ class Fun(commands.Cog):
                 msg = await channel.send(embed = embed)
                 await msg.publish()
                 await self.bot.pg_con.execute("INSERT INTO matchbet(slip_no,status,msg_id) VALUES($1,'on',$2)",slip,msg.id)
-                
+    
+    # Bet command
     @commands.command()
     @commands.dm_only()
     async def bet(self,ctx,slip,choice,amount:int):
@@ -429,6 +452,7 @@ class Fun(commands.Cog):
         else:  
             await ctx.send("Hmm, looks like you've already registered")      
 
+    # Stop the bet slip
     @commands.command()
     async def stop_bet(self,ctx,slip_no,*,odds):
         await self.bot.pg_con.execute("UPDATE matchbet SET status = 'off' WHERE slip_no = $1",slip_no)
@@ -445,6 +469,7 @@ class Fun(commands.Cog):
         await msg.edit(embed = embed)
         await ctx.send(f"Registrations closed for slip {slip_no} :thumbsup:")                
     
+    # Declare winner
     @commands.command()
     async def declare_winner(self,ctx,slip_no,choice,multiplier):
         winners = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE slip_no = $1 AND choice = $2",slip_no,choice)

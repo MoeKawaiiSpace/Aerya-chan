@@ -1,5 +1,5 @@
 # Project Name: Aerya
-# Last Modified: Sep 23, 2020
+# Last Modified: Sep 27, 2020
 # Author: Aki 
 # ------------------------
 
@@ -27,17 +27,8 @@ if __name__ == '__main__':
 # Log when bot is starting
 @bot.event
 async def on_ready():
-    print("Initializing Aerya...")     
-    print("Loading 99%...")
-    print("Aerya is on!")
+    print("Daisuki Master-sama, watashi wa Aerya-chan desu!")     
     
-
-@bot.event
-async def on_guild_join(guild):
-    check = await bot.pg_con.fetch("SELECT toggle from matchbet WHERE guild_id = $1",guild.id)
-    if check == None:
-        await bot.pg_con.execute("INSERT INTO matchbet(guild_id,toggle,channel_id) VALUES($1,'off',None)",guild.id)
-
 # Register the user into the DB when they first time use a bot command
 @bot.event
 async def on_message(message):
@@ -50,7 +41,7 @@ async def on_message(message):
                 await bot.pg_con.execute("INSERT INTO profiles(user_id,guild_id,xp) VALUES($1,$2,0)",ctx.author.id,ctx.guild.id)
 
             if not check1:
-                await bot.pg_con.execute("INSERT INTO profile_ext(user_id, description, waifus, birthday,reputation,badges,bal)  VALUES($1, 'No description given','No waifus/husbandos','Birthday not set',0,$2::TEXT[],10000)",ctx.author.id,[])    
+                await bot.pg_con.execute("INSERT INTO profile_ext(user_id, description, waifus, birthday,reputation,badges,bal,xpg)  VALUES($1, 'No description given','No waifus/husbandos','Birthday not set',0,$2::TEXT[],10000,0)",ctx.author.id,[])    
     
        
     await bot.process_commands(message)    

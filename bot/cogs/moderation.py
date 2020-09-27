@@ -1,5 +1,5 @@
 # Project Name: Aerya
-# Last Modified: Sep 23, 2020
+# Last Modified: Sep 27, 2020
 # Author: Aki 
 # ------------------------
 
@@ -12,7 +12,8 @@ from discord.ext import commands
 class Moderation(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
-
+    
+    # Server info
     @commands.command(aliases = ['sinfo'])
     async def serverinfo(self, ctx):
         allMembers = len(ctx.guild.members)
@@ -71,6 +72,7 @@ class Moderation(commands.Cog):
         embed.set_thumbnail(url=ctx.guild.icon_url)
         await ctx.send(embed=embed)
 
+    # Prune
     @commands.command()
     async def prune(self,ctx, limit):
         try:
@@ -84,6 +86,7 @@ class Moderation(commands.Cog):
         else:        
             await ctx.send(f'Cleared by {ctx.author.name}',delete_after = 2)
 
+    # Ban
     @commands.command()
     @commands.has_permissions(ban_members=True) 
     async def ban(self, ctx, user: discord.Member, *, reason: str = "No reason specified"):
@@ -97,6 +100,7 @@ class Moderation(commands.Cog):
         await user.send(f"You are banned from the server. \nReason: {reason}")   
         await user.ban()
 
+    # Unban
     @commands.command()
     @commands.has_permissions(ban_members=True) 
     async def unban(self,ctx,user:str):
@@ -115,6 +119,7 @@ class Moderation(commands.Cog):
         else:
             await ctx.send("Cannot find user in list of banned members. \nEnter the username in this format: name#discriminator(eg:rob#1212)")   
 
+    # Kick
     @commands.command()
     @commands.has_permissions(kick_members=True) 
     async def kick(self, ctx, user: discord.Member, *, reason: str = "No reason specified"):
@@ -128,6 +133,7 @@ class Moderation(commands.Cog):
         await user.send(f"You have been kicked from the server. \nReason: {reason}")   
         await user.kick()  
 
+    # Throw error
     @ban.error
     async def ban_error(self,ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
@@ -157,10 +163,18 @@ class Moderation(commands.Cog):
             
         else:
             raise error 
+
+    # Check bot latency
     @commands.command()
     async def ping(self,ctx):
         await ctx.send(f'Pong: {round(self.bot.latency*1000)}ms')
 
+    # Get bot invite link
+    @commands.command()
+    async def invite(self,ctx):
+        await ctx.send("Here is my invite link uwu: https://discord.com/api/oauth2/authorize?client_id=641780922445856768&permissions=8&scope=bot")
+
+    # Get Support server invite link
     @commands.command(name = "support",aliases = ['discord'])
     async def support_discord(self,ctx):
         await ctx.send("You are welcome to join our support server: https://discord.gg/CVhk828 \nAnd here is my Sportsbook FULL GUIDE if you are looking for it: https://gist.github.com/Aki176/d1709558004f3c779af4f5f93b7eaf58")
