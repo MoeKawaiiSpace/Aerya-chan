@@ -146,7 +146,7 @@ class Fun(commands.Cog):
                 await self.bot.pg_con.execute("UPDATE profile_ext SET bal = $1 WHERE user_id = $2",rest,ctx.author.id)
                 await ctx.send(f"Transferred ``{amount}`` Vallis to {member.display_name}")
             else:
-                await ctx.send("You dont have that much amount to transfer")    
+                await ctx.send("You don't have that much amount to transfer")
     
     # Shop set command
     @commands.command()

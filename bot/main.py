@@ -41,7 +41,7 @@ async def on_message(message):
                 await bot.pg_con.execute("INSERT INTO profiles(user_id,guild_id,xp) VALUES($1,$2,0)",ctx.author.id,ctx.guild.id)
 
             if not check1:
-                await bot.pg_con.execute("INSERT INTO profile_ext(user_id, guild_id, description, waifus, birthday,reputation,badges,bal,xpg)  VALUES($1,$3,'No description given','No waifus/husbandos','Birthday not set',0,$2::TEXT[],10000,0)",ctx.author.id,[],ctx.guild.id)    
+                await bot.pg_con.execute("INSERT INTO profile_ext(user_id, description, waifus, birthday,reputation,badges,bal,xpg,guild_id)  VALUES($1,'No description given','No waifus/husbandos','Birthday not set',0,$2::TEXT[],10000,0,$3)",ctx.author.id,[],ctx.guild.id)    
     
        
     await bot.process_commands(message)    
