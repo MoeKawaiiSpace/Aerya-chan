@@ -240,6 +240,10 @@ class Fun(commands.Cog):
     async def help(self,ctx):
         await ctx.send("**Looking for my command list senpai? Click here:** https://aerya.moe \nAnd here is my Sportsbook FULL GUIDE if you are looking for it: https://gist.github.com/Aki176/d1709558004f3c779af4f5f93b7eaf58")    
     
+    @commands.command()
+    async def vote(self,ctx):
+        await ctx.send("I'm really appreciate it if you give me a vote on those website!: https://disbots.gg/bot/641780922445856768")
+
     @commands.command(aliases = ['rep'])
     @commands.guild_only()
     @commands.cooldown(1,86400,BucketType.user)
