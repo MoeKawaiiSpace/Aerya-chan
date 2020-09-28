@@ -427,7 +427,6 @@ class Fun(commands.Cog):
     
     # Bet command
     @commands.command()
-    @commands.dm_only()
     async def bet(self,ctx,slip,choice,amount:int):
         chek = await self.bot.pg_con.fetchrow("SELECT * FROM matchbet_data WHERE user_id = $1 AND slip_no = $2",ctx.author.id,slip)
      
