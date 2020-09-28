@@ -15,6 +15,7 @@ class Moderation(commands.Cog):
     
     # Server info
     @commands.command(aliases = ['sinfo'])
+    @commands.guild_only()
     async def serverinfo(self, ctx):
         allMembers = len(ctx.guild.members)
         offline = len([a for a in ctx.guild.members if a.status == discord.Status.invisible])
@@ -74,6 +75,7 @@ class Moderation(commands.Cog):
 
     # Prune
     @commands.command()
+    @commands.guild_only()
     async def prune(self,ctx, limit):
         try:
             await ctx.channel.purge(limit=int(limit)+1)
@@ -88,6 +90,7 @@ class Moderation(commands.Cog):
 
     # Ban
     @commands.command()
+    @commands.guild_only()
     @commands.has_permissions(ban_members=True) 
     async def ban(self, ctx, user: discord.Member, *, reason: str = "No reason specified"):
         embed = discord.Embed(title="Member Banned", color = 0xD82626)
@@ -102,6 +105,7 @@ class Moderation(commands.Cog):
 
     # Unban
     @commands.command()
+    @commands.guild_only()
     @commands.has_permissions(ban_members=True) 
     async def unban(self,ctx,user:str):
         entries = await ctx.guild.bans()
@@ -121,6 +125,7 @@ class Moderation(commands.Cog):
 
     # Kick
     @commands.command()
+    @commands.guild_only()
     @commands.has_permissions(kick_members=True) 
     async def kick(self, ctx, user: discord.Member, *, reason: str = "No reason specified"):
         embed = discord.Embed(title="Member Kicked", color = 0x3C80E2)

@@ -28,7 +28,7 @@ class ArgParse(argparse.ArgumentParser):
     def error(self, message):
         raise commands.BadArgument(message)
 
-# Cooldown 30 secs per 6xp
+# Cooldown 60 secs per 6xp
 class Fun(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
@@ -87,6 +87,7 @@ class Fun(commands.Cog):
 
     # XPLB command     
     @commands.command()
+    @commands.guild_only()
     async def xplb(self,ctx):
         info = await self.bot.pg_con.fetch("SELECT * FROM profiles WHERE guild_id = $1 ORDER BY xp DESC LIMIT 10",ctx.guild.id)
         embed = discord.Embed(title = 'Server XP Rank',color = discord.Color(random.randint( 0, 16777216)))
@@ -240,6 +241,7 @@ class Fun(commands.Cog):
         await ctx.send("**Looking for my command list senpai? Click here:** https://aerya.moe \nAnd here is my Sportsbook FULL GUIDE if you are looking for it: https://gist.github.com/Aki176/d1709558004f3c779af4f5f93b7eaf58")    
     
     @commands.command(aliases = ['rep'])
+    @commands.guild_only()
     @commands.cooldown(1,86400,BucketType.user)
     async def reputation(self,ctx, member:discord.Member=None):
         if member == None:
@@ -272,6 +274,7 @@ class Fun(commands.Cog):
 
     # Profile command  
     @commands.command()
+    @commands.guild_only()
     async def profile(self,ctx,member:Optional[discord.Member]):
         if member:
             info = await self.bot.pg_con.fetch("SELECT * FROM profiles WHERE user_id = $1 AND guild_id = $2",member.id,ctx.guild.id)
@@ -423,7 +426,9 @@ class Fun(commands.Cog):
                 msg = await channel.send(embed = embed)
                 await msg.publish()
                 await self.bot.pg_con.execute("INSERT INTO matchbet(slip_no,status,msg_id) VALUES($1,'on',$2)",slip,msg.id)
-    
+        else:
+            await ctx.send("Sorry, you are not eligible to use this command")
+
     # Bet command
     @commands.command()
     async def bet(self,ctx,slip,choice,amount:int):
@@ -454,37 +459,44 @@ class Fun(commands.Cog):
     # Stop the bet slip
     @commands.command()
     async def stop_bet(self,ctx,slip_no,*,odds):
-        await self.bot.pg_con.execute("UPDATE matchbet SET status = 'off' WHERE slip_no = $1",slip_no)
-        left = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE choice = 'left'")
-        right = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE choice = 'right'")
-      
-        left_per = (len(left)/(len(left)+len(right)))*100
-        right_per = (len(right)/(len(right)+len(left)))*100
-        id = await self.bot.pg_con.fetchrow("SELECT msg_id FROM matchbet WHERE slip_no = $1",slip_no)
-        channel = self.bot.get_channel(758508639966724126)
-        msg = await channel.fetch_message(id['msg_id'])
-        desc = msg.embeds[0].description.replace('On','Off',1).replace('Will be displayed soon!',f'{left_per}%/{right_per}%',1).replace('?/?',str(odds),1)
-        embed = discord.Embed(title = msg.embeds[0].title,color = msg.embeds[0].color,description = desc )       
-        await msg.edit(embed = embed)
-        await ctx.send(f"Registrations closed for slip {slip_no} :thumbsup:")                
+        l = [523685858658746397]
+        if ctx.author.id in l:
+            await self.bot.pg_con.execute("UPDATE matchbet SET status = 'off' WHERE slip_no = $1",slip_no)
+            left = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE choice = 'left'")
+            right = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE choice = 'right'")
+            left_per = (len(left)/(len(left)+len(right)))*100
+            right_per = (len(right)/(len(right)+len(left)))*100
+            id = await self.bot.pg_con.fetchrow("SELECT msg_id FROM matchbet WHERE slip_no = $1",slip_no)
+            channel = self.bot.get_channel(758508639966724126)
+            msg = await channel.fetch_message(id['msg_id'])
+            desc = msg.embeds[0].description.replace('On','Off',1).replace('Will be displayed soon!',f'{left_per}%/{right_per}%',1).replace('?/?',str(odds),1)
+            embed = discord.Embed(title = msg.embeds[0].title,color = msg.embeds[0].color,description = desc )       
+            await msg.edit(embed = embed)
+            await ctx.send(f"Registrations closed for slip {slip_no} :thumbsup:")
+        else:
+            await ctx.send("Sorry, you are not eligible to use this command")                
     
     # Declare winner
     @commands.command()
     async def declare_winner(self,ctx,slip_no,choice,multiplier):
-        winners = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE slip_no = $1 AND choice = $2",slip_no,choice)
-        for i in winners:
-            credit = float(multiplier) * i['amount']
-            await self.bot.pg_con.execute("UPDATE profile_ext SET bal = (bal + $1) WHERE user_id = $2",credit,i['user_id'])
-        id = await self.bot.pg_con.fetchrow("SELECT msg_id FROM matchbet WHERE slip_no = $1",slip_no)
-        channel = self.bot.get_channel(758508639966724126)
-        msg = await channel.fetch_message(id['msg_id'])
-        desc = msg.embeds[0].description.replace('Off','Ended',1)
-        embed = discord.Embed(title = msg.embeds[0].title,color = msg.embeds[0].color,description = desc )       
-        await msg.edit(embed = embed)       
-        await self.bot.pg_con.execute("DELETE FROM matchbet_data WHERE slip_no = $1",slip_no)
+        l = [523685858658746397]
+        if ctx.author.id in l:
+            winners = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE slip_no = $1 AND choice = $2",slip_no,choice)
+            for i in winners:
+                credit = float(multiplier) * i['amount']
+                await self.bot.pg_con.execute("UPDATE profile_ext SET bal = (bal + $1) WHERE user_id = $2",credit,i['user_id'])
+            id = await self.bot.pg_con.fetchrow("SELECT msg_id FROM matchbet WHERE slip_no = $1",slip_no)
+            channel = self.bot.get_channel(758508639966724126)
+            msg = await channel.fetch_message(id['msg_id'])
+            desc = msg.embeds[0].description.replace('Off','Ended',1)
+            embed = discord.Embed(title = msg.embeds[0].title,color = msg.embeds[0].color,description = desc )       
+            await msg.edit(embed = embed)       
+            await self.bot.pg_con.execute("DELETE FROM matchbet_data WHERE slip_no = $1",slip_no)
       
-        await self.bot.pg_con.execute("DELETE FROM matchbet WHERE slip_no = $1",slip_no)
-        await ctx.send("Done :thumbsup:")
+            await self.bot.pg_con.execute("DELETE FROM matchbet WHERE slip_no = $1",slip_no)
+            await ctx.send("Done :thumbsup:")
+        else:
+            await ctx.send("Sorry, you are not eligible to use this command")
 
     # Bet list 
     @commands.command()
@@ -493,7 +505,7 @@ class Fun(commands.Cog):
         if not data:
             await ctx.send("No records found")
         else:
-            embed = discord.Embed(title = "Match bet list", color =discord.Color(random.randint(0,16777216)))
+            embed = discord.Embed(title = "Your Bet Slip List", color =discord.Color(random.randint(0,16777216)))
             x = 1
             n = 0
             for i in data:
