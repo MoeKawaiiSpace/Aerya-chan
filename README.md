@@ -60,6 +60,11 @@ REMEMBER NOT TO TYPE THE HASHTAG IN BET SLIP NUMBER
 -> a!bet 000001 left 1000 (000001 is the slip number, left mean you bet on left side and 1000 is the amount of Vallis you placed.)
 ```
 
+### A bet slip that is listed on the spreadsheet but I can't find it on my server, why?
+- If you invited the bot and follow the channel after the bet slip posted in Aerya server, then you won't get it. But you still can bet on it with the bet slip number from the spreadsheet anyway.
+
+- If it's not the first reason then please contact us as fast as possible
+
 ### What does the [SPREADSHEET](https://docs.google.com/spreadsheets/d/1x4TZLGltQiNdhaZMxtuoHE4x8X1UG0ZZFTurRchLD9Y/edit#gid=1397547932) use for?
 I mentioned it above, so I will explain it clearly now. 
 
