@@ -242,7 +242,7 @@ class Fun(commands.Cog):
     
     @commands.command()
     async def vote(self,ctx):
-        await ctx.send("I'm really appreciate it if you give me a vote on those website!: https://disbots.gg/bot/641780922445856768")
+        await ctx.send("I really appreciate it if you give me a vote on those website!: https://disbots.gg/bot/641780922445856768")
 
     @commands.command(aliases = ['rep'])
     @commands.guild_only()
