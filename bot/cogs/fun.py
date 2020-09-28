@@ -89,7 +89,7 @@ class Fun(commands.Cog):
     @commands.command()
     async def xplb(self,ctx):
         info = await self.bot.pg_con.fetch("SELECT * FROM profiles WHERE guild_id = $1 ORDER BY xp DESC LIMIT 10",ctx.guild.id)
-        embed = discord.Embed(title = 'Server Rank',color = discord.Color(random.randint( 0, 16777216)))
+        embed = discord.Embed(title = 'Server XP Rank',color = discord.Color(random.randint( 0, 16777216)))
         x = 0
         n = 1
         for i in info:
@@ -122,13 +122,11 @@ class Fun(commands.Cog):
     @commands.command()
     async def xpglb(self,ctx):
         info = await self.bot.pg_con.fetch("SELECT user_id, xpg FROM profile_ext ORDER BY xpg DESC LIMIT 10")
-        embed = discord.Embed(color = discord.Color(random.randint( 0, 16777216)),title = "Global Rank")
- 
+        embed = discord.Embed(color = discord.Color(random.randint( 0, 16777216)),title = "Global XP Rank")
         n2 = 1
         for i in info:
             m = self.bot.get_user(i['user_id'])
             embed.add_field(name="\u200b", value = f"{n2}) {m.display_name} - XP:``{i['xpg']}``",inline = False)
-           
             n2 +=1
         await ctx.send(embed = embed)    
        
@@ -147,7 +145,7 @@ class Fun(commands.Cog):
                 await ctx.send(f"Transferred ``{amount}`` Vallis to {member.display_name}")
             else:
                 await ctx.send("You don't have that much amount to transfer")
-    
+
     # Shop set command
     @commands.command()
     async def shop_set(self,ctx,*,args):
