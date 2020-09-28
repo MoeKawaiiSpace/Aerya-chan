@@ -63,7 +63,7 @@ class Moderation(commands.Cog):
         embed.add_field(name="Text Channels", value=TextChannelNumber)
         embed.add_field(name="Voice Channels", value=VoiceChannelNumber)
         embed.add_field(name="Total Members", value=f"{allMembers}")
-        embed.add_field(name="Humans :man:", value=f"{netUsers}")
+        embed.add_field(name="Humans", value=f"{netUsers}")
         embed.add_field(name="Bots", value=f"{botUsers}")
         embed.add_field(name="Emojis", value=emojis)
         embed.add_field(name="Verification Level", value=verification)
