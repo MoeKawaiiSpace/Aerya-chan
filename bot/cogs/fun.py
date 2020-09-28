@@ -412,7 +412,6 @@ class Fun(commands.Cog):
             embed = discord.Embed(title = f"#{slip}",color =discord.Color(random.randint(0,16777216)))
             embed.description = f"**Date:** {' '.join(x for x in date)} \n**Game:** {' '.join(x for x in game)} \n**Event:** {' '.join(x for x in event)} \n**Match:** {' '.join(x for x in  match)} \n**Bet on:** {' '.join(x for x in bet_on)} \n**Percentage:** Will be displayed soon! \n**Odds:** ?/? \n**Status:** {' '.join(x for x in status)}"
             
-            
             def check(m):
                 return m.author == ctx.author
             await ctx.send(embed = embed)    
@@ -486,5 +485,24 @@ class Fun(commands.Cog):
       
         await self.bot.pg_con.execute("DELETE FROM matchbet WHERE slip_no = $1",slip_no)
         await ctx.send("Done :thumbsup:")
+
+    # Bet list 
+    @commands.command()
+    async def bet_list(self,ctx):
+        data = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE user_id = $1",ctx.author.id)
+        if not data:
+            await ctx.send("No records found")
+        else:
+            embed = discord.Embed(title = "Match bet list", color =discord.Color(random.randint(0,16777216)))
+            x = 1
+            n = 0
+            for i in data:
+                embed.add_field(name = f"{x}. Slip no",value = data[n]['slip_no'])
+                embed.add_field(name = "Amount",value = data[n]['amount'])
+                embed.add_field(name = "Choice",value = data[n]['choice'])
+                x+=1
+                n+=1
+            await ctx.send(embed=embed)    
+
 def setup(bot):
     bot.add_cog(Fun(bot))        
