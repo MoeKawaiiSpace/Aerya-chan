@@ -281,10 +281,8 @@ class Fun(commands.Cog):
                 embed.add_field(name = "Name", value=member.display_name)
                 embed.add_field(name="\u200b" , value=f"\u200b")
                 embed.add_field(name = "Member ID",value = member.id)
-                embed.add_field(name="\u200b" , value=f"\u200b")
-                embed.add_field(name = "Badges", value = info2[0]['badges'])
                 embed.description = info2[0]['description']
-
+                
                 embed.add_field(name = "Birthday",value = info2[0]['birthday'])
                 embed.add_field(name="\u200b" , value=f"\u200b")
                 embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'] )
@@ -296,7 +294,8 @@ class Fun(commands.Cog):
                 embed.add_field(name = "Vallis",value = info2[0]['bal'])
                 embed.add_field(name="\u200b" , value=f"\u200b")
                 embed.add_field(name = "Reputation",value  = info2[0]['reputation'])
-                
+
+                embed.add_field(name = "Badges", value = info2[0]['badges'])
             else:               
                 await ctx.send("Oops, looks like the member has not been active in the server. Try again later...")    
         else:
@@ -307,8 +306,6 @@ class Fun(commands.Cog):
                 embed.add_field(name = "Name", value=ctx.author.display_name)
                 embed.add_field(name="\u200b" , value=f"\u200b")
                 embed.add_field(name = "Member ID",value = ctx.author.id)
-                embed.add_field(name="\u200b" , value=f"\u200b")
-                embed.add_field(name = "Badges", value = info2[0]['badges'])
                 embed.description = info2[0]['description']
 
                 embed.add_field(name = "Birthday",value = info2[0]['birthday'])
@@ -322,6 +319,8 @@ class Fun(commands.Cog):
                 embed.add_field(name = "Vallis",value = info2[0]['bal'])
                 embed.add_field(name="\u200b" , value=f"\u200b")
                 embed.add_field(name = "Reputation",value  = info2[0]['reputation'])
+
+                embed.add_field(name = "Badges", value = info2[0]['badges'])
         await ctx.send(embed = embed)
     
 
