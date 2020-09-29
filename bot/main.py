@@ -27,6 +27,7 @@ if __name__ == '__main__':
 # Log when bot is starting
 @bot.event
 async def on_ready():
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="https://aerya.moe"))
     print("Daisuki Master-sama, watashi wa Aerya-chan desu!")     
     
 # Register the user into the DB when they first time use a bot command
