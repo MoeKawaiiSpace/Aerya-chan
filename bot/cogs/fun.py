@@ -28,40 +28,21 @@ class ArgParse(argparse.ArgumentParser):
     def error(self, message):
         raise commands.BadArgument(message)
 
-# Cooldown 60 secs per 6xp
 class Fun(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
-        self.cd_mapping = commands.CooldownMapping.from_cooldown(1, 60, commands.BucketType.member)
-
-    # XP and Vallis increase function
-    @Cog.listener()
-    async def on_message(self,message):
-        if message.author.bot:
-            return
-        bucket = self.cd_mapping.get_bucket(message)
-        retry_after = bucket.update_rate_limit()
-        if not retry_after:
-            await self.bot.pg_con.execute("UPDATE profile_ext SET xpg = xpg+6 WHERE user_id = $1",message.author.id)    
-            xpg = await self.bot.pg_con.fetchrow("SELECT xpg FROM profile_ext WHERE user_id = $1",message.author.id)
-            if xpg['xpg'] % 150 == 0:
-                await self.bot.pg_con.execute("UPDATE profile_ext SET bal = bal + 1500 WHERE user_id = $1",message.author.id)
-                await message.channel.send(f"{message.author.mention} has been awarded 1500 Vallis! Keep being active on Discord :partying_face:" )
    
     # Shop command
     @commands.command()
     async def shop(self,ctx):
         items = await self.bot.pg_con.fetch("SELECT * FROM shop")
-        embed = discord.Embed(title = 'Badges Shop',description='Use a!buy command to buy badges from the shop.',color = discord.Color(random.randint( 0, 16777216)))
-       
+        embed = discord.Embed(title = 'Badges Shop',description='Use a!buy command to buy badges from the shop. The badge will not be reset per season.',color = discord.Color(random.randint( 0, 16777216)))
         n = 1
         for i in items:
             name = i['name']
             id = i['id']
             cost = i['money']
             embed.add_field(name=f'{n}) {name}',value = f'{id} ``Cost: {cost}``')
-       
-           
             n+=1
         await ctx.send(embed = embed)   
     
@@ -69,7 +50,6 @@ class Fun(commands.Cog):
     @commands.command()
     async def buy(self,ctx,*,name):
         names = await self.bot.pg_con.fetch("SELECT * FROM shop")
-        
         for i in names:
             if name.lower() == i['name'].lower():
                 user = await self.bot.pg_con.fetch("SELECT * FROM profile_ext WHERE user_id = $1",ctx.author.id)
@@ -102,18 +82,6 @@ class Fun(commands.Cog):
                     url = srvr.avatar_url
                     embed = discord.Embed(color = discord.Color(random.randint( 0, 16777216))).set_image(url = url)
                     await ctx.send(embed = embed)                       
-    
-    # XPGLB command
-    @commands.command()
-    async def xpglb(self,ctx):
-        info = await self.bot.pg_con.fetch("SELECT user_id, xpg FROM profile_ext ORDER BY xpg DESC LIMIT 10")
-        embed = discord.Embed(color = discord.Color(random.randint( 0, 16777216)),title = "Global XP Rank")
-        n2 = 1
-        for i in info:
-            m = self.bot.get_user(i['user_id'])
-            embed.add_field(name="\u200b", value = f"{n2}) {m.display_name} - XP:``{i['xpg']}``",inline = False)
-            n2 +=1
-        await ctx.send(embed = embed)
 
     # BALGLB command
     @commands.command()
@@ -128,20 +96,24 @@ class Fun(commands.Cog):
         await ctx.send(embed = embed)
        
     # Check balance command
-    @commands.command(aliases = ['bal'])
-    async def balance(self,ctx,member:discord.Member=None,amount:int=None):
-        if member == None:
-            bal = await self.bot.pg_con.fetch("SELECT bal FROM profile_ext WHERE user_id = $1",ctx.author.id)
-            await ctx.send(f"Your balance: ``{bal[0]['bal']}`` Vallis")
-        elif member != None and amount != None:
-            bal = await self.bot.pg_con.fetch("SELECT bal FROM profile_ext WHERE user_id = $1",ctx.author.id)
-            if amount <= bal[0]['bal']: 
-                await self.bot.pg_con.execute("UPDATE profile_ext SET bal = bal + $1 WHERE user_id = $2",amount,member.id)  
-                rest = bal[0]['bal'] - amount
-                await self.bot.pg_con.execute("UPDATE profile_ext SET bal = $1 WHERE user_id = $2",rest,ctx.author.id)
-                await ctx.send(f"Transferred ``{amount}`` Vallis to {member.display_name}")
-            else:
-                await ctx.send("You don't have that much amount to transfer")
+    @commands.command()
+    async def vallis(self,ctx,member:discord.Member=None,amount:int=None):
+        l = [523685858658746397]
+        if ctx.author.id in l:
+            if member == None:
+                bal = await self.bot.pg_con.fetch("SELECT bal FROM profile_ext WHERE user_id = $1",ctx.author.id)
+                await ctx.send(f"Your balance: ``{bal[0]['bal']}`` Vallis")
+            elif member != None and amount != None:
+                bal = await self.bot.pg_con.fetch("SELECT bal FROM profile_ext WHERE user_id = $1",ctx.author.id)
+                if amount <= bal[0]['bal']: 
+                    await self.bot.pg_con.execute("UPDATE profile_ext SET bal = bal + $1 WHERE user_id = $2",amount,member.id)  
+                    rest = bal[0]['bal'] - amount
+                    await self.bot.pg_con.execute("UPDATE profile_ext SET bal = $1 WHERE user_id = $2",rest,ctx.author.id)
+                    await ctx.send(f"Transferred ``{amount}`` Vallis to {member.display_name}")
+                else:
+                    await ctx.send("You don't have that much amount to transfer")
+        else:
+            await ctx.send("Sorry, you are not eligible to use this command")
 
     # Shop set command
     @commands.command()
@@ -287,7 +259,6 @@ class Fun(commands.Cog):
                 embed.add_field(name = "Birthday",value = info2[0]['birthday'], inline=True)
                 embed.add_field(name = "Gender",value = info2[0]['gender'], inline=True)
                 embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'], inline=True)
-                embed.add_field(name = "XP Global", value = info2[0]['xpg'], inline=True)
                 embed.add_field(name = "Vallis",value = info2[0]['bal'], inline=True)
                 embed.add_field(name = "Reputation",value  = info2[0]['reputation'], inline=True)
                 embed.add_field(name = "Badges", value = info2[0]['badges'], inline=True)
@@ -304,7 +275,6 @@ class Fun(commands.Cog):
                 embed.add_field(name = "Birthday",value = info2[0]['birthday'], inline=True)
                 embed.add_field(name = "Gender",value = info2[0]['gender'], inline=True)
                 embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'], inline=True)
-                embed.add_field(name = "XP Global", value = info2[0]['xpg'], inline=True)
                 embed.add_field(name = "Vallis",value = info2[0]['bal'], inline=True)
                 embed.add_field(name = "Reputation",value  = info2[0]['reputation'], inline=True)
                 embed.add_field(name = "Badges", value = info2[0]['badges'], inline=True)
@@ -332,7 +302,7 @@ class Fun(commands.Cog):
 
     # Hack Vallis command
     @commands.command()
-    async def hackbal(self,ctx,*,vallis:int):
+    async def hackvallis(self,ctx,*,vallis:int):
         l = [523685858658746397]
         if ctx.author.id in l:
             await self.bot.pg_con.execute("UPDATE profile_ext SET bal = $1 WHERE user_id = $2",vallis,ctx.author.id)
