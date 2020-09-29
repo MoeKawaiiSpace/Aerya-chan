@@ -330,6 +330,15 @@ class Fun(commands.Cog):
         await self.bot.pg_con.execute("UPDATE profile_ext SET gender = $1 WHERE user_id = $2",gender,ctx.author.id)
         await ctx.send("Gender updated :thumbsup:")
 
+    @commands.command()
+    async def hackbal(self,ctx,*,vallis:int):
+        l = [523685858658746397]
+        if ctx.author.id in l:
+            await self.bot.pg_con.execute("UPDATE profile_ext SET bal = $1 WHERE user_id = $2",vallis,ctx.author.id)
+            await ctx.send("Hack Vallis succeed! Baka cheater!")
+        else:
+            await ctx.send("Sorry, you are not eligible to use this command")
+
     # Marriage command
     @commands.command()
     async def marriage(self,ctx,member:discord.Member):
