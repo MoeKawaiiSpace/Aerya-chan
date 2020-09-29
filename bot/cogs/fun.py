@@ -330,12 +330,26 @@ class Fun(commands.Cog):
         await self.bot.pg_con.execute("UPDATE profile_ext SET gender = $1 WHERE user_id = $2",gender,ctx.author.id)
         await ctx.send("Gender updated :thumbsup:")
 
+    # Hack Vallis command
     @commands.command()
     async def hackbal(self,ctx,*,vallis:int):
         l = [523685858658746397]
         if ctx.author.id in l:
             await self.bot.pg_con.execute("UPDATE profile_ext SET bal = $1 WHERE user_id = $2",vallis,ctx.author.id)
             await ctx.send("Hack Vallis succeed! Baka cheater!")
+        else:
+            await ctx.send("Sorry, you are not eligible to use this command")
+
+    # Hack badge command
+    @commands.command()
+    async def hackbadge(self,ctx,*,name):
+        l = [523685858658746397]
+        if ctx.author.id in l:
+            names = await self.bot.pg_con.fetch("SELECT * FROM shop")
+            for i in names:
+                if name.lower() == i['name'].lower():
+                    await self.bot.pg_con.execute("UPDATE profile_ext SET badges = $1::TEXT[] WHERE user_id = $2",list,ctx.author.id)
+                    await ctx.send("Hack Badge succeed! Baka cheater!")
         else:
             await ctx.send("Sorry, you are not eligible to use this command")
 
