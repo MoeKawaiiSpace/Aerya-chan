@@ -38,10 +38,10 @@ async def on_message(message):
             check1 = await bot.pg_con.fetch("SELECT * FROM profile_ext WHERE user_id = $1",ctx.author.id)
             check2 = await bot.pg_con.fetch("SELECT * FROM profiles WHERE user_id = $1 AND guild_id = $2",ctx.author.id,ctx.guild.id)
             if not check2: 
-                await bot.pg_con.execute("INSERT INTO profiles(user_id,guild_id,xp) VALUES($1,$2,0)",ctx.author.id,ctx.guild.id)
+                await bot.pg_con.execute("INSERT INTO profiles(user_id,guild_id) VALUES($1,$2)",ctx.author.id,ctx.guild.id)
 
             if not check1:
-                await bot.pg_con.execute("INSERT INTO profile_ext(user_id, description, waifus, birthday,reputation,badges,bal,xpg)  VALUES($1,'No description given','No waifus/husbandos','Birthday not set',0,$2::TEXT[],10000,0)",ctx.author.id,[],ctx.guild.id)    
+                await bot.pg_con.execute("INSERT INTO profile_ext(user_id, description, waifus, birthday,gender,reputation,badges,bal,xpg)  VALUES($1,'No description given','No waifus/husbandos','Birthday not set','Gender not set',0,$2::TEXT[],10000,0)",ctx.author.id,[],ctx.guild.id)    
     
        
     await bot.process_commands(message)    

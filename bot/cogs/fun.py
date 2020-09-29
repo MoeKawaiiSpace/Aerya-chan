@@ -42,7 +42,6 @@ class Fun(commands.Cog):
         bucket = self.cd_mapping.get_bucket(message)
         retry_after = bucket.update_rate_limit()
         if not retry_after:
-            await self.bot.pg_con.execute("UPDATE profiles SET xp = xp+6 WHERE user_id = $1 AND guild_id = $2",message.author.id,message.guild.id)
             await self.bot.pg_con.execute("UPDATE profile_ext SET xpg = xpg+6 WHERE user_id = $1",message.author.id)    
             xpg = await self.bot.pg_con.fetchrow("SELECT xpg FROM profile_ext WHERE user_id = $1",message.author.id)
             if xpg['xpg'] % 150 == 0:
@@ -83,22 +82,7 @@ class Fun(commands.Cog):
                     await self.bot.pg_con.execute("UPDATE profile_ext SET badges = $1::TEXT[] WHERE user_id = $2",list,ctx.author.id)
                     await ctx.send("Bought item :thumbsup:")
                 else:
-                    await ctx.send("Looks like you dont have enough money to buy this item :(")  
-
-    # XPLB command     
-    @commands.command()
-    @commands.guild_only()
-    async def xplb(self,ctx):
-        info = await self.bot.pg_con.fetch("SELECT * FROM profiles WHERE guild_id = $1 ORDER BY xp DESC LIMIT 10",ctx.guild.id)
-        embed = discord.Embed(title = 'Server XP Rank',color = discord.Color(random.randint( 0, 16777216)))
-        x = 0
-        n = 1
-        for i in info:
-            m = ctx.guild.get_member(info[x]['user_id'])
-            embed.add_field(name="\u200b",value = f"{n}) {m.display_name} - XP:``{info[x]['xp']}``",inline = False)
-            x+=1
-            n+=1
-        await ctx.send(embed = embed)    
+                    await ctx.send("Looks like you dont have enough money to buy this item :(")
 
     # Avatar command
     @commands.command()
@@ -285,24 +269,16 @@ class Fun(commands.Cog):
             if info:
                 embed = discord.Embed(title = "Member Profile",color = discord.Color(random.randint(0,16777216)))
                 info2 = await self.bot.pg_con.fetch("SELECT * FROM profile_ext WHERE user_id = $1",member.id)            
-                embed.add_field(name = "Name", value=member.display_name)
-                embed.add_field(name="\u200b" , value=f"\u200b")
-                embed.add_field(name = "Member ID",value = member.id)
                 embed.description = info2[0]['description']
-                
-                embed.add_field(name = "Birthday",value = info2[0]['birthday'])
-                embed.add_field(name="\u200b" , value=f"\u200b")
-                embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'] )
-
-                embed.add_field(name = "XP Server", value = info[0]['xp'])
-                embed.add_field(name="\u200b" , value=f"\u200b")
-                embed.add_field(name = "XP Global", value = info2[0]['xpg'])
-
-                embed.add_field(name = "Vallis",value = info2[0]['bal'])
-                embed.add_field(name="\u200b" , value=f"\u200b")
-                embed.add_field(name = "Reputation",value  = info2[0]['reputation'])
-
-                embed.add_field(name = "Badges", value = info2[0]['badges'])
+                embed.add_field(name = "Name", value=member.display_name, inline=True)
+                embed.add_field(name = "Member ID",value = member.id, inline=True)
+                embed.add_field(name = "Birthday",value = info2[0]['birthday'], inline=True)
+                embed.add_field(name = "Gender",value = info2[0]['gender'], inline=True)
+                embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'], inline=True)
+                embed.add_field(name = "XP Global", value = info2[0]['xpg'], inline=True)
+                embed.add_field(name = "Vallis",value = info2[0]['bal'], inline=True)
+                embed.add_field(name = "Reputation",value  = info2[0]['reputation'], inline=True)
+                embed.add_field(name = "Badges", value = info2[0]['badges'], inline=True)
             else:               
                 await ctx.send("Oops, looks like the member has not been active in the server. Try again later...")    
         else:
@@ -310,24 +286,16 @@ class Fun(commands.Cog):
             info = await self.bot.pg_con.fetch("SELECT * FROM profiles WHERE user_id = $1 AND guild_id = $2",ctx.author.id,ctx.guild.id)
             if info:
                 info2 = await self.bot.pg_con.fetch("SELECT * FROM profile_ext WHERE user_id = $1",ctx.author.id)            
-                embed.add_field(name = "Name", value=ctx.author.display_name)
-                embed.add_field(name="\u200b" , value=f"\u200b")
-                embed.add_field(name = "Member ID",value = ctx.author.id)
                 embed.description = info2[0]['description']
-
-                embed.add_field(name = "Birthday",value = info2[0]['birthday'])
-                embed.add_field(name="\u200b" , value=f"\u200b")
-                embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'] )
-
-                embed.add_field(name = "XP Server", value = info[0]['xp'])
-                embed.add_field(name="\u200b" , value=f"\u200b")
-                embed.add_field(name = "XP Global", value = info2[0]['xpg'])
-
-                embed.add_field(name = "Vallis",value = info2[0]['bal'])
-                embed.add_field(name="\u200b" , value=f"\u200b")
-                embed.add_field(name = "Reputation",value  = info2[0]['reputation'])
-
-                embed.add_field(name = "Badges", value = info2[0]['badges'])
+                embed.add_field(name = "Name", value=ctx.author.display_name, inline=True)               
+                embed.add_field(name = "Member ID",value = ctx.author.id, inline=True)
+                embed.add_field(name = "Birthday",value = info2[0]['birthday'], inline=True)
+                embed.add_field(name = "Gender",value = info2[0]['gender'], inline=True)
+                embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'], inline=True)
+                embed.add_field(name = "XP Global", value = info2[0]['xpg'], inline=True)
+                embed.add_field(name = "Vallis",value = info2[0]['bal'], inline=True)
+                embed.add_field(name = "Reputation",value  = info2[0]['reputation'], inline=True)
+                embed.add_field(name = "Badges", value = info2[0]['badges'], inline=True)
         await ctx.send(embed = embed)
     
 
@@ -343,6 +311,11 @@ class Fun(commands.Cog):
     async def setbday(self,ctx,*,bday:str):
         await self.bot.pg_con.execute("UPDATE profile_ext SET birthday = $1 WHERE user_id = $2",bday,ctx.author.id)  
         await ctx.send("Birthday updated :thumbsup:")
+
+    @commands.command()
+    async def setgender(self,ctx,*,gender:str):
+        await self.bot.pg_con.execute("UPDATE profile_ext SET gender = $1 WHERE user_id = $2",gender,ctx.author.id)
+        await ctx.send("Gender updated :thumbsup:")
 
     # Marriage command
     @commands.command()
@@ -416,7 +389,7 @@ class Fun(commands.Cog):
             bet_on = args.bet_on
             status = args.status
     
-            embed = discord.Embed(title = f"#{slip}",color =discord.Color(random.randint(0,16777216)))
+            embed = discord.Embed(title = f"{slip}",color =discord.Color(random.randint(0,16777216)))
             embed.description = f"**Date:** {' '.join(x for x in date)} \n**Game:** {' '.join(x for x in game)} \n**Event:** {' '.join(x for x in event)} \n**Match:** {' '.join(x for x in  match)} \n**Bet on:** {' '.join(x for x in bet_on)} \n**Percentage:** Will be displayed soon! \n**Odds:** ?/? \n**Status:** {' '.join(x for x in status)}"
             
             def check(m):
