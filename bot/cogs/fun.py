@@ -113,7 +113,19 @@ class Fun(commands.Cog):
             m = self.bot.get_user(i['user_id'])
             embed.add_field(name="\u200b", value = f"{n2}) {m.display_name} - XP:``{i['xpg']}``",inline = False)
             n2 +=1
-        await ctx.send(embed = embed)    
+        await ctx.send(embed = embed)
+
+    # BALGLB command
+    @commands.command()
+    async def balglb(self,ctx):
+        info = await self.bot.pg_con.fetch("SELECT user_id, bal FROM profile_ext ORDER BY bal DESC LIMIT 10")
+        embed = discord.Embed(color = discord.Color(random.randint( 0, 16777216)),title = "Global Vallis Rank")
+        n2 = 1
+        for i in info:
+            m = self.bot.get_user(i['user_id'])
+            embed.add_field(name="\u200b", value = f"{n2}) {m.display_name} - Vallis:``{i['bal']}``",inline = False)
+            n2 +=1
+        await ctx.send(embed = embed)
        
     # Check balance command
     @commands.command(aliases = ['bal'])
@@ -223,7 +235,7 @@ class Fun(commands.Cog):
     @commands.command()
     async def help(self,ctx):
         await ctx.send("**Looking for my command list senpai? Click here:** https://aerya.moe \nAnd here is my Sportsbook FULL GUIDE if you are looking for it: https://gist.github.com/Aki176/d1709558004f3c779af4f5f93b7eaf58")    
-    
+    # Vote command
     @commands.command()
     async def vote(self,ctx):
         await ctx.send("I really appreciate it if you give me a vote on those website!: https://disbots.gg/bot/641780922445856768")
@@ -312,6 +324,7 @@ class Fun(commands.Cog):
         await self.bot.pg_con.execute("UPDATE profile_ext SET birthday = $1 WHERE user_id = $2",bday,ctx.author.id)  
         await ctx.send("Birthday updated :thumbsup:")
 
+    # Set gender command
     @commands.command()
     async def setgender(self,ctx,*,gender:str):
         await self.bot.pg_con.execute("UPDATE profile_ext SET gender = $1 WHERE user_id = $2",gender,ctx.author.id)
