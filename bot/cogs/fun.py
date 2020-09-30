@@ -152,7 +152,6 @@ class Fun(commands.Cog):
             for channel in guild.text_channels:
                 textchannels.append(channel)
 
-
         def get_size(bytes, suffix="B"):
             factor = 1024
             for unit in ["", "K", "M", "G", "T", "P"]:
@@ -183,23 +182,13 @@ class Fun(commands.Cog):
         embed.add_field(name="Bot ID" , value=f"641780922445856768")
         embed.add_field(name="\u200b" , value=f"\u200b")
         embed.add_field(name="Bot Owner" , value="**Aki#1706** (ID: 523685858658746397)")
-
-       
-
         embed.add_field(name = "CPU Usage", value = f"{cpu_usage}%")
         embed.add_field(name ="\u200b" , value=f"\u200b")
         embed.add_field(name = "Ram Usage", value = f"{ram_usage}%")
-        
-
-        
         embed.add_field(name ="Serving in", value = f"**{totalservers}** Servers")
         embed.add_field(name ="\u200b" , value=f"\u200b")
         embed.add_field(name ="Serving for" , value=f"**{totalusers}** Users")
-
         embed.add_field(name ="Uptime" , value=f"{days} days, {hours} hours, {minutes} minutes, {seconds} seconds ",inline=False)
-
-
-
         embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar_url)
         embed.set_thumbnail(url = self.bot.user.avatar_url)
         await ctx.send(embed = embed)
@@ -212,38 +201,6 @@ class Fun(commands.Cog):
     @commands.command()
     async def vote(self,ctx):
         await ctx.send("I really appreciate it if you give me a vote on those website!: https://disbots.gg/bot/641780922445856768")
-
-    @commands.command(aliases = ['rep'])
-    @commands.guild_only()
-    @commands.cooldown(1,86400,BucketType.user)
-    async def reputation(self,ctx, member:discord.Member=None):
-        if member == None:
-            await ctx.send("Please specify a member")
-
-        elif member.id == ctx.author.id:    
-            await ctx.send("You cannot rep yourself")
-        else:
-            await self.bot.pg_con.execute("UPDATE profile_ext SET reputation = reputation+1 WHERE user_id = $1 ",member.id)    
-            await ctx.send(f"Awarded {member.display_name} with one reputation point")
-    @reputation.error
-    async def rps_error(self,ctx, e):
-            if isinstance(e, commands.CommandOnCooldown):
-                wait = discord.Embed(description = f"Hey there! Wait for {int(e.retry_after/3600)} hrs until you can use this command agn again :clock:  ")
-                await ctx.send(embed = wait)
-            else:
-                raise       
-    @commands.command(aliases=['daily'])
-    @commands.cooldown(1,86400,BucketType.user) 
-    async def login(self,ctx):
-        await self.bot.pg_con.execute("UPDATE profile_ext SET bal = bal + 1000 WHERE user_id = $1",ctx.author.id)
-        await ctx.send("Baka! B-b-but here is your ``1000`` Vallis!!")
-    @reputation.error
-    async def login_error(self,ctx, e):
-            if isinstance(e, commands.CommandOnCooldown):
-                wait = discord.Embed(description = f"Hey there! Wait for {int(e.retry_after/3600)} hrs until you can use this command again :clock:  ")
-                await ctx.send(embed = wait)
-            else:
-                raise  
 
     # Profile command  
     @commands.command()
@@ -264,7 +221,6 @@ class Fun(commands.Cog):
                 embed.add_field(name = "Gender",value = info2[0]['gender'], inline=True)
                 embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'], inline=True)
                 embed.add_field(name = "Vallis",value = info2[0]['bal'], inline=True)
-                embed.add_field(name = "Reputation",value  = info2[0]['reputation'], inline=True)
                 embed.add_field(name = "Badges", value = info2[0]['badges'], inline=True)
             else:               
                 await ctx.send("Oops, looks like the member has not been active in the server. Try again later...")    
@@ -283,12 +239,9 @@ class Fun(commands.Cog):
                 embed.add_field(name = "Gender",value = info2[0]['gender'], inline=True)
                 embed.add_field(name = "Waifus/Husbando",value = info2[0]['waifus'], inline=True)
                 embed.add_field(name = "Vallis",value = info2[0]['bal'], inline=True)
-                embed.add_field(name = "Reputation",value  = info2[0]['reputation'], inline=True)
                 embed.add_field(name = "Badges", value = info2[0]['badges'], inline=True)
         await ctx.send(embed = embed)
     
-
-
     # Set description command
     @commands.command()
     async def setdesc(self,ctx,*,desc:str):
@@ -498,7 +451,7 @@ class Fun(commands.Cog):
     async def choose(self,ctx,*,choice:str):
         choices = choice.split('|')
         embed = discord.Embed(title = "I choose " + random.choice(choices),color = discord.Color(random.randint(0,16777216)))
-        await ctx.send("Give me a second senpai. Aerya-chan is thinking...")
+        await ctx.send("Give me a second senpai. Aerya-chan is thinking...:thinking:")
         time.sleep(2.5)
         await ctx.send(embed=embed)
 
