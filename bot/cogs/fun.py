@@ -322,7 +322,7 @@ class Fun(commands.Cog):
     # Set details bet slip command
     @commands.command()
     async def set_details(self,ctx,*,args):
-        l = [523685858658746397]
+        l = [523685858658746397,311822674085019651]
         if ctx.author.id in l:
             parser = ArgParse()
             parser.add_argument('--slip', type=str)
@@ -389,7 +389,7 @@ class Fun(commands.Cog):
     # Stop the bet slip
     @commands.command()
     async def stop_bet(self,ctx,slip_no,*,odds):
-        l = [523685858658746397]
+        l = [523685858658746397,311822674085019651]
         if ctx.author.id in l:
             await self.bot.pg_con.execute("UPDATE matchbet SET status = 'off' WHERE slip_no = $1",slip_no)
             left = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE choice = 'left'")
@@ -409,7 +409,7 @@ class Fun(commands.Cog):
     # Declare winner
     @commands.command()
     async def declare_winner(self,ctx,slip_no,choice,multiplier):
-        l = [523685858658746397]
+        l = [523685858658746397,311822674085019651]
         if ctx.author.id in l:
             winners = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE slip_no = $1 AND choice = $2",slip_no,choice)
             for i in winners:
