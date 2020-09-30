@@ -99,7 +99,7 @@ class Fun(commands.Cog):
     # Check balance command
     @commands.command()
     async def vallis(self,ctx,member:discord.Member=None,amount:int=None):
-        l = [523685858658746397]
+        l = [523685858658746397,311822674085019651]
         if ctx.author.id in l:
             if member == None:
                 bal = await self.bot.pg_con.fetch("SELECT bal FROM profile_ext WHERE user_id = $1",ctx.author.id)
@@ -263,7 +263,7 @@ class Fun(commands.Cog):
     # Hack Vallis command
     @commands.command()
     async def hackvallis(self,ctx,*,vallis:int):
-        l = [523685858658746397]
+        l = [523685858658746397,311822674085019651]
         if ctx.author.id in l:
             await self.bot.pg_con.execute("UPDATE profile_ext SET bal = $1 WHERE user_id = $2",vallis,ctx.author.id)
             await ctx.send("Hack Vallis succeed! Baka cheater!")
