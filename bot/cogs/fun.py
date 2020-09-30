@@ -251,9 +251,12 @@ class Fun(commands.Cog):
         if member:
             info = await self.bot.pg_con.fetch("SELECT * FROM profiles WHERE user_id = $1 AND guild_id = $2",member.id,ctx.guild.id)
             if info:
+                avaurl=member.avatar_url
                 embed = discord.Embed(title = "Member Profile",color = discord.Color(random.randint(0,16777216)))
                 info2 = await self.bot.pg_con.fetch("SELECT * FROM profile_ext WHERE user_id = $1",member.id)            
                 embed.description = info2[0]['description']
+                embed.set_author(name=member.name, icon_url=avaurl)
+                embed.set_thumbnail(url=avaurl)
                 embed.add_field(name = "Name", value=member.display_name, inline=True)
                 embed.add_field(name = "Member ID",value = member.id, inline=True)
                 embed.add_field(name = "Birthday",value = info2[0]['birthday'], inline=True)
@@ -268,8 +271,11 @@ class Fun(commands.Cog):
             embed = discord.Embed(title = "Member Profile",color = discord.Color(random.randint(0,16777216)))
             info = await self.bot.pg_con.fetch("SELECT * FROM profiles WHERE user_id = $1 AND guild_id = $2",ctx.author.id,ctx.guild.id)
             if info:
+                avaurl=ctx.author.avatar_url
                 info2 = await self.bot.pg_con.fetch("SELECT * FROM profile_ext WHERE user_id = $1",ctx.author.id)            
                 embed.description = info2[0]['description']
+                embed.set_author(name=ctx.author.name, icon_url=avaurl)
+                embed.set_thumbnail(url=avaurl)
                 embed.add_field(name = "Name", value=ctx.author.display_name, inline=True)               
                 embed.add_field(name = "Member ID",value = ctx.author.id, inline=True)
                 embed.add_field(name = "Birthday",value = info2[0]['birthday'], inline=True)
@@ -488,7 +494,7 @@ class Fun(commands.Cog):
 
     # Choice command
     @commands.command()
-    async def choice(self,ctx,*,choice:str):
+    async def choose(self,ctx,*,choice:str):
         choices = choice.split('|')
         await ctx.send(random.choice(choices))
 
