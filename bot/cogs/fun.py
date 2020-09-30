@@ -484,7 +484,13 @@ class Fun(commands.Cog):
                 embed.add_field(name = "Choice",value = data[n]['choice'])
                 x+=1
                 n+=1
-            await ctx.send(embed=embed)    
+            await ctx.send(embed=embed)
+
+    # Choice command
+    @commands.command()
+    async def choice(self,ctx,*,choice:str):
+        choices = choice.split('|')
+        await ctx.send(random.choice(choices))
 
 def setup(bot):
     bot.add_cog(Fun(bot))        
