@@ -13,6 +13,7 @@ import humanfriendly
 import random
 import asyncio
 import datetime
+import time
 from discord.ext import commands
 from typing import Optional
 import psutil
@@ -496,7 +497,10 @@ class Fun(commands.Cog):
     @commands.command()
     async def choose(self,ctx,*,choice:str):
         choices = choice.split('|')
-        await ctx.send(random.choice(choices))
+        embed = discord.Embed(title = "I choose " + random.choice(choices),color = discord.Color(random.randint(0,16777216)))
+        await ctx.send("Give me a second senpai. Aerya-chan is thinking...")
+        time.sleep(2.5)
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Fun(bot))        

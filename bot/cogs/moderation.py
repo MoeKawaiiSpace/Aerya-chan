@@ -92,7 +92,7 @@ class Moderation(commands.Cog):
     @commands.command()
     @commands.guild_only()
     @commands.has_permissions(ban_members=True) 
-    async def ban(self, ctx, user: discord.Member, *, reason: str = "No reason specified"):
+    async def ban(self, ctx, user: discord.Member, *, reason:str = "No reason specified"):
         embed = discord.Embed(title="Member Banned", color = 0xD82626)
         embed.add_field(name="Member:", value=f"{user.name}#{user.discriminator} ", inline=True)
         embed.add_field(name="Banned by:", value=f"{ctx.author.name}#{ctx.author.discriminator}", inline=True)
