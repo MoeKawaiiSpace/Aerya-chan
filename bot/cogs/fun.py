@@ -392,8 +392,8 @@ class Fun(commands.Cog):
         l = [523685858658746397,311822674085019651]
         if ctx.author.id in l:
             await self.bot.pg_con.execute("UPDATE matchbet SET status = 'off' WHERE slip_no = $1",slip_no)
-            left = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE choice = 'left'")
-            right = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE choice = 'right'")
+            left = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE choice = 'left' AND slip_no = $1",slip_no)
+            right = await self.bot.pg_con.fetch("SELECT * FROM matchbet_data WHERE choice = 'right' AND slip_no = $1",slip_no)
             left_per = (len(left)/(len(left)+len(right)))*100
             right_per = (len(right)/(len(right)+len(left)))*100
             id = await self.bot.pg_con.fetchrow("SELECT msg_id FROM matchbet WHERE slip_no = $1",slip_no)
