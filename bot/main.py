@@ -18,7 +18,7 @@ init_extensions = ['cogs.moderation','cogs.fun']
 
 # Connect to PostgreSQL
 async def create_db_pool():
-    bot.pg_con = await asyncpg.create_pool(host = '139.59.251.230',user = 'aki', password = 'vuducanh2003',database = 'aerya')
+    bot.pg_con = await asyncpg.create_pool(host = '139.59.251.230',user = 'aki', password = 'vuducanh2k12',database = 'aerya')
 
 if __name__ == '__main__':
     for extension in init_extensions:
@@ -50,4 +50,4 @@ async def on_message(message):
 bot.loop.run_until_complete(create_db_pool())    
 
 # Bot token
-bot.run("NjQxNzgwOTIyNDQ1ODU2NzY4.XxhT3Q.wwsjSvNzBrcjKuRrm1OnZSNZqg4")    
+bot.run("gg")    
